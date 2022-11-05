@@ -6,9 +6,25 @@
 
 using namespace std;
 
-vector<vector<string>> bookArray; /*!< Vector of vector of strings to be sorted */
+class sorting{
+
 float unsorted_values[11127];
 int sorted_keys[11127];
+    public:
+    float getValue(int index){
+        return unsorted_values[sorted_keys[index]];
+    }
+    void swap(int index1, int index2){
+        std::swap(sorted_keys[index1], sorted_keys[index2]);
+     }
+    void extractor(vector<vector<string>>  &toBeExtracted);
+    void checker();
+    void printer();
+    void checker();
+    void writer(vector<string> header, vector<vector<string>> bookArray);
+
+};
+sorting sort;
 
 
 /*!
@@ -17,8 +33,9 @@ int sorted_keys[11127];
  *
  * Parser() opens the file and uses vector.push_back extensively.  
  */
-void parser(){
+vector<vector<string>> parser(){
     ifstream reader;
+    vector<vector<string>> bookArray; /*!< Vector of vector of strings to be sorted */
     string line;
     bookArray.reserve(11128);
 
@@ -37,13 +54,15 @@ void parser(){
 
         }
     }
-
-}
-void extractor(vector<>){
-
+return bookArray;
 }
 
-void writer(vector<string> header){
+void sorting::extractor(vector<vector<string>>  &toBeExtracted){
+	for (int i= 0 ; i  < toBeExtracted.size(); i++) {
+		sort.unsorted_values[i] =  stof(toBeExtracted[i][3]);
+	}
+}
+void sorting::writer(vector<string> header, vector<vector<string>> bookArray){
 	ofstream writer;
 	string line;
 
@@ -61,31 +80,27 @@ void writer(vector<string> header){
     line += '\n';    
 
 	writer << line ;
-	while(line_index < bookArray.size()){
-	line = bookArray[line_index][0];
+    int vector_index;
+    for(int i = 0; i < bookArray.size(); i++){
+        vector_index = sort.sorted_keys[i];
+        line = bookArray[vector_index][0];
+        for(int j = 1; j < bookArray[vector_index].size(); j++){
+            line += ',';
+            line += bookArray[vector_index][j];
+        }
+        line += '\n';
+        writer << line;
+    }
 	
-		for(int i = 1; i < bookArray[0].size(); i++){
-			line += ',';
-
-			line += bookArray[line_index][i]; 
-	}
-	line += '\n';
-		
-	line_index++;
-	//cout << line_index << endl;
-	writer << line ;
-
-    
-	}
 	writer.close();
 
 
 	return;
 }
 
-void printer(vector<vector<string>>  &toBePrinted){
-	for (int i= 0 ; i  < toBePrinted.size(); i++) {
-		cout << toBePrinted[i][3] << endl;
+void sorting::printer(){
+	for (int i= 0 ; i  < sizeof(unsorted_values)/sizeof(float); i++) {
+		cout << unsorted_values[i] << endl;
 	}
 }
 
@@ -96,10 +111,9 @@ int tb_partition (vector<vector<string>> &toBeSorted, int low, int high){
 
     float Pivot = stof(toBeSorted[high][3]);
     for (int j = low; j < high; j++){
-        if ( stof(toBeSorted[j][3]) <= Pivot ){
+        if ( sort.getValue(j) <= Pivot ){
             i++;
-
-            swap(toBeSorted[i], toBeSorted[j]);
+            sort.swap(i,j);
         }
     }
         swap(toBeSorted[i+1], toBeSorted[high]);
@@ -140,16 +154,16 @@ void tb_quicksort(vector<vector<string>> &toBeSorted, int low, int high){
 
 */
 
-int partition (vector<vector<string>> &toBeSorted, int low, int high){
+int partition ( int low, int high){
     int i = low;
     int j = low;
 
-    float Pivot = stof(toBeSorted[high][3]);
+    float Pivot = sort.getValue(high); 
 //cout << (toBeSorted[i][3]);
 
 //cout << (toBeSorted[j][3]);
     //if(j >= i){
-    while (stof(toBeSorted[i][3]) <= Pivot && stof(toBeSorted[j][3]) <= Pivot && j < high -1){
+    while (sort.getValue(i) <= Pivot && sort.getValue(j) <= Pivot && j < high -1){
         j++;
         i++;
         //cout << i << j ;
@@ -158,92 +172,76 @@ int partition (vector<vector<string>> &toBeSorted, int low, int high){
 
     while ( j < high){
         j++;
-        if(stof(toBeSorted[j][3]) < Pivot)
-            swap(toBeSorted[i], toBeSorted[j]);
-        while(stof(toBeSorted[i][3]) <= Pivot && i < j)
+        if(sort.getValue(j) < Pivot)
+            sort.swap(i,j);
+        while(sort.getValue(j) <= Pivot && i < j)
             i++;
     }
 
-    //i = i -1;
-    //i = j; //After swap update i
 
-    //if(stof(toBeSorted[j][3]) == Pivot) 
     if(j == high)
-        swap(toBeSorted[i], toBeSorted[high]);
-
+        sort.swap(i, high);
     return i;
 }
-void quicksort(vector<vector<string>> &toBeSorted, int low, int high){
+void quicksort( int low, int high){
 
     int i;
     if(low < high ){
-        //cout << i ;
-        //cout << "Partition1 loop" << endl;
-	//printer(toBeSorted);
-        i = partition(toBeSorted, low, high);
-            quicksort(toBeSorted, low, i - 1);
-            quicksort(toBeSorted, i + 1, high);
+        i = partition( low, high);
+            quicksort( low, i - 1);
+            quicksort( i + 1, high);
     }
 }
-int partition2 (vector<vector<string>> &toBeSorted, int low, int high){
+int partition2 ( int low, int high){
     int i = low;
     int j = high;
     int pivIndex = rand() % (high - low) + low;
-    float Pivot = stof(toBeSorted[pivIndex ][3]);
-
-    swap(toBeSorted[pivIndex], toBeSorted[low]);
+    float Pivot = sort.getValue(pivIndex);
+    sort.swap(pivIndex, low);
 
     while (i < j){ 
-        while ( stof(toBeSorted[i][3]) <= Pivot && i < high ){
+        while ( sort.getValue(j) <= Pivot && i < high ){
             i++;
         }
-        while ( stof(toBeSorted[j][3]) >= Pivot && j >= i && j > low){
+        while ( sort.getValue(j) >= Pivot && j >= i && j > low){
             j--;
         }
         
         if(i >= j){
-            swap(toBeSorted[low], toBeSorted[j]);
+            sort.swap(low, j);
             return j;
         }
-        if((stof(toBeSorted[j][3]) < Pivot  ||  stof(toBeSorted[i][3]) > Pivot) && i < j){
-            swap(toBeSorted[i], toBeSorted[j]);
+        if((sort.getValue(j) < Pivot  ||  sort.getValue(j) > Pivot) && i < j){
+            sort.swap(i,j);
         }
 
 
     }
-    /*
-    if(pivIndex < j)
-        swap(toBeSorted[pivIndex], toBeSorted[j]);
-    if(pivIndex > i)
-        swap(toBeSorted[pivIndex], toBeSorted[i]);
-        */
     return j;   
 }
 
 
-void quicksort2(vector<vector<string>> &toBeSorted, int low, int high){
+void quicksort2(int low, int high){
     int i;
     if(low < high ){
-        //cout << i ;
-        //cout << "Partition loop" << endl;
-        i = partition2(toBeSorted, low, high);
-	    //printer(toBeSorted);
+        i = partition2(low, high);
 
         if(i>0){
 
-            quicksort2(toBeSorted, low, i - 1);
-            quicksort2(toBeSorted, i + 1, high);
+            quicksort2(low, i - 1);
+            quicksort2(i + 1, high);
         }
     }
 
 }
 
-void checker(vector<vector<string>> &toBeChecked){
+void sorting::checker(){
     bool isSorted = true;
-    for (int i = 0; i < toBeChecked.size() -1; i++){
-        if(stof(toBeChecked[i][3]) > stof(toBeChecked[i+1][3])){
+
+    for (int i = 0; i < sizeof(sorted_keys)/sizeof(float); i++){
+        if(sort.getValue(i) > sort.getValue(i+1)){
             cout << "Error at " << i << endl;
-            cout << toBeChecked[i][3] << " " << toBeChecked[i+1][3] << endl;
+            cout << sort.getValue(i) << " " << sort.getValue(i + 1) << endl;
             isSorted = false;
         }
     }
@@ -255,7 +253,8 @@ void checker(vector<vector<string>> &toBeChecked){
 
 int main(){
 
-    parser();
+ vector<vector<string>> bookArray =  parser();
+
    vector<string> header;
     header = bookArray[0] ;
     bookArray.erase(bookArray.begin());
@@ -265,7 +264,8 @@ int main(){
 
 
 	//printer(bookArray);
-    quicksort(bookArray, low, high);
+    sort.extractor(bookArray);
+    quicksort( low, high);
     checker(bookArray);
 	writer(header);
     cout << "sorting..." << endl;
