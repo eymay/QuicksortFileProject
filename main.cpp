@@ -23,8 +23,8 @@ using namespace std;
  */
 class sorting{
 
-float unsorted_values[11127];//!< Every element at i corresponds to the unsorted rating number at i'th row
-int sorted_keys[11127];//!< Every element at i corresponds to the sorted row numbers
+vector<float> unsorted_values;//!< Every element at i corresponds to the unsorted rating number at i'th row
+vector<int> sorted_keys;//!< Every element at i corresponds to the sorted row numbers
     public:
     /*!
      * getValue() function returns the rating number at index refered by the sorted_keys array at index i.
@@ -102,11 +102,14 @@ return bookArray;
  Also the sorted_keys are initialised as before the sorting every i index points to the i'th row. 
  */
 void sorting::extractor(vector<vector<string>>  &toBeExtracted){
-	for (int i= 0 ; i  < toBeExtracted.size(); i++) {
-		sort.unsorted_values[i] =  stof(toBeExtracted[i][3]);
+    int size = toBeExtracted.size();
+    sort.unsorted_values.reserve(size);
+    sort.sorted_keys.reserve(size);
+	for (int i= 0 ; i  <size; i++) {
+		sort.unsorted_values.push_back( stof(toBeExtracted[i][3]));
 	}
-    for(int i = 0; i < 11127; i++){
-        sort.sorted_keys[i] = i;
+    for(int i = 0; i < size; i++){
+        sort.sorted_keys.push_back( i);
     }
 
 }
