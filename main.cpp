@@ -12,15 +12,18 @@ float unsorted_values[11127];
 int sorted_keys[11127];
     public:
     float getValue(int index){
-        return unsorted_values[sorted_keys[index]];
+        if (index >= 11127 ){
+            throw std::invalid_argument("Index out of bounds");
+            return -1;
+        }else
+            return unsorted_values[sorted_keys[index]];
     }
     void swap(int index1, int index2){
         std::swap(sorted_keys[index1], sorted_keys[index2]);
      }
     void extractor(vector<vector<string>>  &toBeExtracted);
-    void checker();
+    bool checker();
     void printer();
-    void checker();
     void writer(vector<string> header, vector<vector<string>> bookArray);
 
 };
@@ -54,6 +57,7 @@ vector<vector<string>> parser(){
 
         }
     }
+    reader.close();
 return bookArray;
 }
 
@@ -61,6 +65,10 @@ void sorting::extractor(vector<vector<string>>  &toBeExtracted){
 	for (int i= 0 ; i  < toBeExtracted.size(); i++) {
 		sort.unsorted_values[i] =  stof(toBeExtracted[i][3]);
 	}
+    for(int i = 0; i < 11127; i++){
+        sort.sorted_keys[i] = i;
+    }
+
 }
 void sorting::writer(vector<string> header, vector<vector<string>> bookArray){
 	ofstream writer;
@@ -174,7 +182,7 @@ int partition ( int low, int high){
         j++;
         if(sort.getValue(j) < Pivot)
             sort.swap(i,j);
-        while(sort.getValue(j) <= Pivot && i < j)
+        while(sort.getValue(i) <= Pivot && i < j)
             i++;
     }
 
@@ -235,10 +243,10 @@ void quicksort2(int low, int high){
 
 }
 
-void sorting::checker(){
+bool sorting::checker(){
     bool isSorted = true;
 
-    for (int i = 0; i < sizeof(sorted_keys)/sizeof(float); i++){
+    for (int i = 0; i < sizeof(sorted_keys)/sizeof(float) - 1; i++){
         if(sort.getValue(i) > sort.getValue(i+1)){
             cout << "Error at " << i << endl;
             cout << sort.getValue(i) << " " << sort.getValue(i + 1) << endl;
@@ -249,6 +257,8 @@ void sorting::checker(){
         cout << "Sorted" << endl;
     else
         cout << "Not Sorted" << endl;
+
+    return isSorted;
 }
 
 int main(){
@@ -266,9 +276,10 @@ int main(){
 	//printer(bookArray);
     sort.extractor(bookArray);
     quicksort( low, high);
-    checker(bookArray);
-	writer(header);
-    cout << "sorting..." << endl;
+    if(sort.checker()){
+	    sort.writer(header, bookArray);
+        cout << "writing to file" << endl;
+    }   
 
 	//printer(bookArray);
     return 0;
