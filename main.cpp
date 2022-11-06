@@ -1,34 +1,54 @@
+#include <cstdlib>
+#include <memory>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <chrono>
+
+#define stats 1
+
+#if stats
+int swap_count = 0;
+int value_read = 0;
+int partition_count = 0;
+#endif
 
 using namespace std;
 /*!
- *to perform safer index based sorting a class with private arrays of the extracted numbers to be sorted and their referencing index array is created. 
+ *to perform safer index based sorting a class with private arrays of the 
+ extracted numbers to be sorted and their referencing index array is created. 
  Any function that needs to access these arrays except functions for the sorting are methods. 
  */
 class sorting{
 
-float unsorted_values[11127];/*!< Every element at i corresponds to the unsorted rating number at i'th row*/
-int sorted_keys[11127];/*!< Every element at i corresponds to the sorted row numbers*/
+float unsorted_values[11127];//!< Every element at i corresponds to the unsorted rating number at i'th row
+int sorted_keys[11127];//!< Every element at i corresponds to the sorted row numbers
     public:
     /*!
-     * getValue() function returns the rating number at index refered by the sorted_keys array at index i. The index of value to be sorted is stored in another array which gets sorted.
+     * getValue() function returns the rating number at index refered by the sorted_keys array at index i.
+     * The index of value to be sorted is stored in another array which gets sorted.
      */
     float getValue(int index){
         if (index >= 11127 ){
             throw std::invalid_argument("Index out of bounds");
             return -1;
-        }else
+        }else{
+#if stats
+            value_read++;  
+#endif
             return unsorted_values[sorted_keys[index]];
+        }
     }
     /*!
      *Swap is performed by swapping positions of value indices at sorted_keys array.
 
      */
     void swap(int index1, int index2){
+#if stats
+        swap_count++;
+#endif
         std::swap(sorted_keys[index1], sorted_keys[index2]);
      }
 
@@ -43,13 +63,16 @@ sorting sort;
 
 /*!
  *
- * Parser() reads the csv file in local directory named "books.csv" and feeds it into a vector of vector of strings. The vector of strings represent the rows and make the swaps easier. The outer vector is used as the file's internal representation in code.
+ * Parser() reads the csv file in local directory named "books.csv" and feeds it into 
+ * a vector of vector of strings. The vector of strings represent the rows. The outer
+ * vector is used as the file's internal representation in code.
  *
- * Parser() opens the file and uses vector.push_back extensively.  
+ * Parser() opens the file and uses vector.push_back extensively. To prevent reallocation 
+ * of memory extensively, vector.reserve() is used before editing the vector.  
  */
 vector<vector<string>> parser(){
     ifstream reader;
-    vector<vector<string>> bookArray; /*!< Vector of vector of strings to be sorted */
+    vector<vector<string>> bookArray;
     string line;
     bookArray.reserve(11128);
 
@@ -69,11 +92,14 @@ vector<vector<string>> parser(){
         }
     }
     reader.close();
+    bookArray.shrink_to_fit();
 return bookArray;
 }
 /*!
- *Extractor is used to minimise the usage of stof() function throughout the programme. It introduces a linear complexity which can be neglected.
- Unsorted_values array has the values extractec from the read vector of vector of strings.Also the sorted_keys are initialised as before the sorting every i index points to the i'th row. 
+ *Extractor is used to minimise the usage of stof() function throughout the programme.
+ It introduces a linear complexity which can be neglected.
+ Unsorted_values array has the values extractec from the read vector of vector of strings.
+ Also the sorted_keys are initialised as before the sorting every i index points to the i'th row. 
  */
 void sorting::extractor(vector<vector<string>>  &toBeExtracted){
 	for (int i= 0 ; i  < toBeExtracted.size(); i++) {
@@ -85,7 +111,10 @@ void sorting::extractor(vector<vector<string>>  &toBeExtracted){
 
 }
 /*!
- *Writer() places the header of the csv first and then proceeds to read the vector of vector of strings. The read operation to the vector is performed non-sequentially. The row to be written is found by reading the sorted_keys array sequentially. The overhead introduced by finding the vector index from the sorted_keys array has a linear complexity as it is done once in the outer loop and the value is used throughout the inner loop.  
+ *Writer() places the header of the csv first and then proceeds to read the vector of vector of strings.
+ The read operation to the vector is performed non-sequentially. The row to be written is found by reading
+ the sorted_keys array sequentially. The overhead introduced by finding the vector index from the sorted_keys
+ array has a linear complexity as it is done once in the outer loop and the value is used throughout the inner loop.  
  */
 void sorting::writer(vector<string> header, vector<vector<string>> bookArray){
 	ofstream writer;
@@ -179,6 +208,9 @@ first element bigger than the pivot, it is a safe index to swap the pivot.
 */
 
 int partition ( int low, int high){
+#if stats
+partition_count++;
+#endif 
     int i = low;
     int j = low;
 
@@ -315,12 +347,29 @@ int main(){
 
 
 	//printer(bookArray);
+    cout << "Using QS1 Algorithm with input size "<< high << endl;      
     sort.extractor(bookArray);
+#if stats
+    value_read = 0;
+    swap_count = 0; 
+    partition_count = 0;
+#endif
+    auto start = std::chrono::high_resolution_clock::now();
     quicksort( low, high);
+
+    auto stop = std::chrono::high_resolution_clock::now();
+#if stats
+    cout << "The reading of value is performed " << to_string(value_read) << " times."<< endl;
+    cout << "Swap is performed " <<to_string(swap_count) << " times."<< endl;
+    cout << "Partition is performed " <<to_string(partition_count) << " times."<< endl;
+#endif
     if(sort.checker()){
 	    sort.writer(header, bookArray);
         cout << "writing to file" << endl;
     }   
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop -start);
+    cout << "Duration of quicksort is " << duration.count() << " nanoseconds."<< endl;
+cout << "\n";
 
 	//printer(bookArray);
     return 0;
