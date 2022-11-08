@@ -19,6 +19,10 @@
 \usepackage[nointegrals]{wasysym}
 \usepackage{ifxetex}
 
+% Package added by Eymen
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+\usepackage[margin=0.25in]{geometry}
 % Font selection
 \usepackage[T1]{fontenc}
 \usepackage[scaled=.90]{helvet}
@@ -171,22 +175,11 @@
 \hypersetup{pageanchor=true}
 
 %--- Begin generated contents ---
-\chapter{Class Index}
-\input{annotated}
-\chapter{File Index}
-\input{files}
-\chapter{Class Documentation}
+\chapter{Introduction and Performance Analysis}
+\input{How2Run.tex}
+\chapter{Code Documentation}
 \input{classsorting}
-\chapter{File Documentation}
 \input{main_8cpp}
 %--- End generated contents ---
-
-% Index
-\backmatter
-\newpage
-\phantomsection
-\clearemptydoublepage
-\addcontentsline{toc}{chapter}{\indexname}
-\printindex
 
 \end{document}
