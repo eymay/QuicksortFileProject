@@ -1,0 +1,65 @@
+\hypertarget{classsorting}{}\doxysection{sorting Class Reference}
+\label{classsorting}\index{sorting@{sorting}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{classsorting_aac3a1615c8c750def490792cce1ceaf7}{get\+Value}} (int index)
+\item 
+void \mbox{\hyperlink{classsorting_a7ddce88b61401c867f34bc5c587f4ab4}{swap}} (int index1, int index2)
+\item 
+void \mbox{\hyperlink{classsorting_a1c9bec11d98e8d33aea6ec5dc335ac3a}{extractor}} (vector$<$ vector$<$ string $>$$>$ \&to\+Be\+Extracted)
+\item 
+bool \mbox{\hyperlink{classsorting_a64bb39296b1a256590ecb919044116ad}{checker}} ()
+\item 
+void \mbox{\hyperlink{classsorting_a28d68144cbe7db9cb9f0a5e04b9e932c}{printer}} ()
+\item 
+void \mbox{\hyperlink{classsorting_aed55939e77109b2224fd536beb7433d0}{writer}} (vector$<$ string $>$ header, vector$<$ vector$<$ string $>$$>$ book\+Array)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+to perform safer index based sorting a class with private arrays of the extracted numbers to be sorted and their referencing index array is created. Any function that needs to access these arrays except functions for the sorting are methods. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classsorting_a64bb39296b1a256590ecb919044116ad}\label{classsorting_a64bb39296b1a256590ecb919044116ad}} 
+\index{sorting@{sorting}!checker@{checker}}
+\index{checker@{checker}!sorting@{sorting}}
+\doxysubsubsection{\texorpdfstring{checker()}{checker()}}
+{\footnotesize\ttfamily bool sorting\+::checker (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Checker is used for testing the if the sorting was correct. It returns a boolean which is used for deciding to write to a file. It also useful for debugging. \mbox{\Hypertarget{classsorting_a1c9bec11d98e8d33aea6ec5dc335ac3a}\label{classsorting_a1c9bec11d98e8d33aea6ec5dc335ac3a}} 
+\index{sorting@{sorting}!extractor@{extractor}}
+\index{extractor@{extractor}!sorting@{sorting}}
+\doxysubsubsection{\texorpdfstring{extractor()}{extractor()}}
+{\footnotesize\ttfamily void sorting\+::extractor (\begin{DoxyParamCaption}\item[{vector$<$ vector$<$ string $>$$>$ \&}]{to\+Be\+Extracted }\end{DoxyParamCaption})}
+
+Extractor is used to minimise the usage of stof() function throughout the programme. It introduces a linear complexity which can be neglected. Unsorted\+\_\+values array has the values extractec from the read vector of vector of strings. Also the sorted\+\_\+keys are initialised as before the sorting every i index points to the i\textquotesingle{}th row. \mbox{\Hypertarget{classsorting_aac3a1615c8c750def490792cce1ceaf7}\label{classsorting_aac3a1615c8c750def490792cce1ceaf7}} 
+\index{sorting@{sorting}!getValue@{getValue}}
+\index{getValue@{getValue}!sorting@{sorting}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}}
+{\footnotesize\ttfamily float sorting\+::get\+Value (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\hyperlink{classsorting_aac3a1615c8c750def490792cce1ceaf7}{get\+Value()}} function returns the rating number at index refered by the sorted\+\_\+keys array at index i. The index of value to be sorted is stored in another array which gets sorted. \mbox{\Hypertarget{classsorting_a28d68144cbe7db9cb9f0a5e04b9e932c}\label{classsorting_a28d68144cbe7db9cb9f0a5e04b9e932c}} 
+\index{sorting@{sorting}!printer@{printer}}
+\index{printer@{printer}!sorting@{sorting}}
+\doxysubsubsection{\texorpdfstring{printer()}{printer()}}
+{\footnotesize\ttfamily void sorting\+::printer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Printer() is used for debugging purposes, especially for smaller sized inputs. \mbox{\Hypertarget{classsorting_a7ddce88b61401c867f34bc5c587f4ab4}\label{classsorting_a7ddce88b61401c867f34bc5c587f4ab4}} 
+\index{sorting@{sorting}!swap@{swap}}
+\index{swap@{swap}!sorting@{sorting}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily void sorting\+::swap (\begin{DoxyParamCaption}\item[{int}]{index1,  }\item[{int}]{index2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Swap is performed by swapping positions of value indices at sorted\+\_\+keys array. \mbox{\Hypertarget{classsorting_aed55939e77109b2224fd536beb7433d0}\label{classsorting_aed55939e77109b2224fd536beb7433d0}} 
+\index{sorting@{sorting}!writer@{writer}}
+\index{writer@{writer}!sorting@{sorting}}
+\doxysubsubsection{\texorpdfstring{writer()}{writer()}}
+{\footnotesize\ttfamily void sorting\+::writer (\begin{DoxyParamCaption}\item[{vector$<$ string $>$}]{header,  }\item[{vector$<$ vector$<$ string $>$$>$}]{book\+Array }\end{DoxyParamCaption})}
+
+Writer() places the header of the csv first and then proceeds to read the vector of vector of strings. The read operation to the vector is performed non-\/sequentially. The row to be written is found by reading the sorted\+\_\+keys array sequentially. The overhead introduced by finding the vector index from the sorted\+\_\+keys array has a linear complexity as it is done once in the outer loop and the value is used throughout the inner loop. ~\newline
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{main_8cpp}{main.\+cpp}}\end{DoxyCompactItemize}

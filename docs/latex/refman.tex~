@@ -171,13 +171,10 @@
 \hypersetup{pageanchor=true}
 
 %--- Begin generated contents ---
-\chapter{Class Index}
-\input{annotated}
-\chapter{File Index}
-\input{files}
-\chapter{Class Documentation}
+\chapter{Introduction and Performance Analysis}
+\input{How2Run.tex}
+\chapter{Code Documentation}
 \input{classsorting}
-\chapter{File Documentation}
 \input{main_8cpp}
 %--- End generated contents ---
 

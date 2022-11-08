@@ -14,9 +14,9 @@ In the first run of my analysis, I realised that the parser was taking 50\% of t
 
 \begin{figure}[H]
 \begin{center}
+\label{malloc}
 \leavevmode
 \includegraphics[width=350pt]{1sttry.png}
-\label{malloc}
 \end{center}
 \end{figure}
 
@@ -24,10 +24,10 @@ In the first run of my analysis, I realised that the parser was taking 50\% of t
 In my first iteration of the code, to see that the algorithm is working, the parsed vector was directly accessed and sorted by using string to float (stoa) function extensively. This caused an overhead as the complexity of the sorting algorithm got reflected in stoa() function as well which can be observed at Figure \ref{stoa}.
 \begin{figure}[H]
 \begin{center}
+\label{stoa}
 \leavevmode
 \includegraphics[width=350pt]{output_o2optimised.png}
 \caption{O2 optimised and compiled by g++}
-\label{stoa}
 \end{center}
 \end{figure}
 
@@ -40,27 +40,27 @@ After making these changes the parser() function is still taking 100\% execution
 
 \begin{figure}[H]
 \begin{center}
+\label{parser}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{output_o3optimised3_crop_parser.png}
 \caption{O3 optimised and compiled by g++}
-\label{parser}
 \end{center}
 \end{figure}
 
 \begin{figure}[H]
 \begin{center}
+\label{parserfix}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{output_o3optimised5.png}
 \caption{O3 optimised and compiled by g++}
-\label{parserfix}
 \end{center}
 \end{figure}
 \begin{figure}[H]
 \begin{center}
+\label{parserfix_clang}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{output_clango3optimised6.png}
 \caption{O3 optimised and compiled by clang++}
-\label{parserfix_clang}
 \end{center}
 \end{figure}
 The optimisations made by the compilers play a critical role at the performance of various parts of the code. Parser is optimised heavily in clang but not in gcc and they output different execution percentages. Apart from parser() the compiler also tries to optimize quicksort() function. In clang it is possible to view several optimizations made by the compiler on high level code with a tool named opt-viewer. In order to use it, -fsave-optimization-record -foptimization-record-file arguments should be given to clang. A yaml file containing optimisations will be generated. Opt-viewer can use the yaml file and generate html files. The opt-viewer is written in Python and it is in the llvm repository.
@@ -68,19 +68,19 @@ The optimisations made by the compilers play a critical role at the performance 
 
 \begin{figure}[H]
 \begin{center}
+\label{part_opt}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{partition_optviewer.png}
 \caption{Optimisations of Clang provided by Opt-Viewer}
-\label{part_opt}
 \end{center}
 \end{figure}
 
 \begin{figure}[H]
 \begin{center}
+\label{qs_opt}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{quicksort_optviewer.png}
 \caption{Optimisations of Clang provided by Opt-Viewer}
-\label{qs_opt}
 \end{center}
 \end{figure}
 The optimisations of Clang in the partition() function can be viewed at Figure \ref{part_opt} which are minimal. The optimisations on quicksort() can be seen at Figure \ref{qs_opt} which includes tail call elimination. 
@@ -90,33 +90,33 @@ The function call statistics are present in gprof but to have the statistics emb
 
 \begin{figure}[H]
 \begin{center}
+\label{qs_max}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{qsmax.png}
 \caption{Duration time of quicksort execution and function counts with 100\% input }
-\label{qs_max}
 \end{center}
 \end{figure}
 \begin{figure}[H]
 \begin{center}
+\label{qs_half}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{qshalf.png}
 \caption{Duration time of quicksort execution and function counts with 50\% input }
-\label{qs_half}
 \end{center}
 \end{figure}
 \begin{figure}[H]
 \begin{center}
+\label{qs_quarter}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{qsquarter.png}
 \caption{Duration time of quicksort execution and function counts with 25\% input }
-\label{qs_quarter}
 \end{center}
 \end{figure}
 \begin{figure}[H]
 \begin{center}
+\label{qs_qhalf}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{qsquarterhalf.png}
 \caption{Duration time of quicksort execution and function counts with 12\% input }
-\label{qs_qhalf}
 \end{center}
 \end{figure}

@@ -1,0 +1,135 @@
+\hypertarget{main_8cpp}{}\doxysection{main.\+cpp File Reference}
+\label{main_8cpp}\index{main.cpp@{main.cpp}}
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+Include dependency graph for main.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classsorting}{sorting}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{main_8cpp_af9bd888eca51f56562f5033d610e96d2}{stats}}~1
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ vector$<$ string $>$ $>$ \mbox{\hyperlink{main_8cpp_a6107dec749fe0a4896d5f437164fe559}{parser}} ()
+\item 
+int \mbox{\hyperlink{main_8cpp_acd7b9f8ad7815eac11d1f69c0a275427}{tb\+\_\+partition}} (int low, int high)
+\item 
+void \mbox{\hyperlink{main_8cpp_a056ee800db15ce7184a70414ba47a89f}{tb\+\_\+quicksort}} (int low, int high)
+\item 
+int \mbox{\hyperlink{main_8cpp_ae8cb2f604c9b1901dc2ed0d843662ad9}{partition}} (int low, int high)
+\item 
+void \mbox{\hyperlink{main_8cpp_a3f5fde1789728078d7826ca4497badb7}{quicksort}} (int low, int high)
+\item 
+void \mbox{\hyperlink{main_8cpp_a0fc1bcb5e821d7958ecc6be9fdde01cf}{partition\+\_\+check}} (int low, int high, int pivot)
+\item 
+int \mbox{\hyperlink{main_8cpp_ab8fa1736f266777bd0e7cfe52136c9e4}{partition2}} (int low, int high)
+\item 
+void \mbox{\hyperlink{main_8cpp_a456a179ee594e5fbf83e892b63e561c0}{quicksort2}} (int low, int high)
+\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8cpp_ae76ed57a0c80605f72d3fee2fc8f3507}{swap\+\_\+count}} = 0
+\item 
+int \mbox{\hyperlink{main_8cpp_a4de2cdea484c25f1016ae37260626671}{value\+\_\+read}} = 0
+\item 
+int \mbox{\hyperlink{main_8cpp_ae182fe76f58798e6a9e7bb9f019d9d70}{partition\+\_\+count}} = 0
+\item 
+\mbox{\hyperlink{classsorting}{sorting}} \mbox{\hyperlink{main_8cpp_ae1b2fd320ed49e99a9543efa128b00ab}{sort}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{main_8cpp_af9bd888eca51f56562f5033d610e96d2}\label{main_8cpp_af9bd888eca51f56562f5033d610e96d2}} 
+\index{main.cpp@{main.cpp}!stats@{stats}}
+\index{stats@{stats}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{stats}{stats}}
+{\footnotesize\ttfamily \#define stats~1}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Parser returns the vector of vector of strings which is the parsed intermediate format of input csv file. The first row of header contains title information and has no data so it is stored in the header variable and the first row is erased in the vector. The low and high indices are calculated from the resulting data vector. Extractor initialises the sorting arrays. After sorting, the result is checked with checker. If it is correct the result is written to a csv file with writer(). For small input sizes the printer functions can be uncommented. \mbox{\Hypertarget{main_8cpp_a6107dec749fe0a4896d5f437164fe559}\label{main_8cpp_a6107dec749fe0a4896d5f437164fe559}} 
+\index{main.cpp@{main.cpp}!parser@{parser}}
+\index{parser@{parser}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{parser()}{parser()}}
+{\footnotesize\ttfamily vector$<$vector$<$string$>$ $>$ parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Parser() reads the csv file in local directory named \char`\"{}books.\+csv\char`\"{} and feeds it into a vector of vector of strings. The vector of strings represent the rows. The outer vector is used as the file\textquotesingle{}s internal representation in code.
+
+Parser() opens the file and uses vector.\+push\+\_\+back extensively. To prevent reallocation of memory extensively, vector.\+reserve() is used before editing the vector. ~\newline
+ \mbox{\Hypertarget{main_8cpp_ae8cb2f604c9b1901dc2ed0d843662ad9}\label{main_8cpp_ae8cb2f604c9b1901dc2ed0d843662ad9}} 
+\index{main.cpp@{main.cpp}!partition@{partition}}
+\index{partition@{partition}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{partition()}{partition()}}
+{\footnotesize\ttfamily int partition (\begin{DoxyParamCaption}\item[{int}]{low,  }\item[{int}]{high }\end{DoxyParamCaption})}
+
+The code for the Part I, partition function starts by walking i and j until a value bigger than the pivot is seen. The conditional j $<$ high -\/ 1 is added for bound safety. After a value bigger than the pivot is seen j walks alone.\+Here is a conditional added\+: The swap to perform is made if only the new value is bigger than pivot. As j gets updated it can see values smaller than the pivot and it is wasteful to swap them.
+
+The pseudocode allowed to update i in various ways. The method developed eventually was to make i walk until j or a value bigger than pivot was seen.
+
+If j gets to the last element which is pivot, it gets swapped with i. As i is indicating the first element bigger than the pivot, it is a safe index to swap the pivot. \mbox{\Hypertarget{main_8cpp_ab8fa1736f266777bd0e7cfe52136c9e4}\label{main_8cpp_ab8fa1736f266777bd0e7cfe52136c9e4}} 
+\index{main.cpp@{main.cpp}!partition2@{partition2}}
+\index{partition2@{partition2}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{partition2()}{partition2()}}
+{\footnotesize\ttfamily int partition2 (\begin{DoxyParamCaption}\item[{int}]{low,  }\item[{int}]{high }\end{DoxyParamCaption})}
+
+The code for Part II, the partition function starts by walking i from the low index and j from the high index. The pivot is selected randomly. In addition to the pseudocode, I decided to store the pivot in the low index at the beginning. i walks until seeing a value bigger than pivot and j walks backwards from the end until seeing a value smaller than pivot. If i did not exceed j, swap i and j. \mbox{\Hypertarget{main_8cpp_a0fc1bcb5e821d7958ecc6be9fdde01cf}\label{main_8cpp_a0fc1bcb5e821d7958ecc6be9fdde01cf}} 
+\index{main.cpp@{main.cpp}!partition\_check@{partition\_check}}
+\index{partition\_check@{partition\_check}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{partition\_check()}{partition\_check()}}
+{\footnotesize\ttfamily void partition\+\_\+check (\begin{DoxyParamCaption}\item[{int}]{low,  }\item[{int}]{high,  }\item[{int}]{pivot }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{main_8cpp_a3f5fde1789728078d7826ca4497badb7}\label{main_8cpp_a3f5fde1789728078d7826ca4497badb7}} 
+\index{main.cpp@{main.cpp}!quicksort@{quicksort}}
+\index{quicksort@{quicksort}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{quicksort()}{quicksort()}}
+{\footnotesize\ttfamily void quicksort (\begin{DoxyParamCaption}\item[{int}]{low,  }\item[{int}]{high }\end{DoxyParamCaption})}
+
+quicksort function of Part I. Since only the partition scheme changes the \mbox{\hyperlink{main_8cpp_a3f5fde1789728078d7826ca4497badb7}{quicksort()}} functions of Part I and II are almost identical. The reason there is not an argument of array is that the value reading and swap operations are performed with a global object\textquotesingle{}s methods. The objects can be made an argument as an improvement. \mbox{\Hypertarget{main_8cpp_a456a179ee594e5fbf83e892b63e561c0}\label{main_8cpp_a456a179ee594e5fbf83e892b63e561c0}} 
+\index{main.cpp@{main.cpp}!quicksort2@{quicksort2}}
+\index{quicksort2@{quicksort2}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{quicksort2()}{quicksort2()}}
+{\footnotesize\ttfamily void quicksort2 (\begin{DoxyParamCaption}\item[{int}]{low,  }\item[{int}]{high }\end{DoxyParamCaption})}
+
+quicksort function of Part I. Since only the partition scheme changes the \mbox{\hyperlink{main_8cpp_a3f5fde1789728078d7826ca4497badb7}{quicksort()}} functions of Part I and II are almost identical. \mbox{\Hypertarget{main_8cpp_acd7b9f8ad7815eac11d1f69c0a275427}\label{main_8cpp_acd7b9f8ad7815eac11d1f69c0a275427}} 
+\index{main.cpp@{main.cpp}!tb\_partition@{tb\_partition}}
+\index{tb\_partition@{tb\_partition}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{tb\_partition()}{tb\_partition()}}
+{\footnotesize\ttfamily int tb\+\_\+partition (\begin{DoxyParamCaption}\item[{int}]{low,  }\item[{int}]{high }\end{DoxyParamCaption})}
+
+The partition code is from the textbook (Introduction to Algorithms, Cormen) and used for debugging purposes. \mbox{\Hypertarget{main_8cpp_a056ee800db15ce7184a70414ba47a89f}\label{main_8cpp_a056ee800db15ce7184a70414ba47a89f}} 
+\index{main.cpp@{main.cpp}!tb\_quicksort@{tb\_quicksort}}
+\index{tb\_quicksort@{tb\_quicksort}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{tb\_quicksort()}{tb\_quicksort()}}
+{\footnotesize\ttfamily void tb\+\_\+quicksort (\begin{DoxyParamCaption}\item[{int}]{low,  }\item[{int}]{high }\end{DoxyParamCaption})}
+
+The quicksort code is from the textbook (Introduction to Algorithms, Cormen) and used for debugging purposes. 
+
