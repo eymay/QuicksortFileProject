@@ -84,9 +84,9 @@ vector<vector<string>> parser(){
             vector<string> linevec;
 	while (getline(ss, line, ','))
             {
-                linevec.push_back(line);
+                linevec.push_back(std::move(line));
             }
-            bookArray.push_back(linevec);
+            bookArray.push_back(std::move(linevec));
 
 
         }
@@ -105,14 +105,14 @@ void sorting::extractor(vector<vector<string>>  &toBeExtracted){
     int size = toBeExtracted.size();
     sort.unsorted_values.reserve(size);
     sort.sorted_keys.reserve(size);
-	for (int i= 0 ; i  <size; i++) {
+	for (int i= 0 ; i  < size; i++) {
 		sort.unsorted_values.push_back( stof(toBeExtracted[i][3]));
 	}
     for(int i = 0; i < size; i++){
         sort.sorted_keys.push_back( i);
     }
 
-}
+    }
 /*!
  *Writer() places the header of the csv first and then proceeds to read the vector of vector of strings.
  The read operation to the vector is performed non-sequentially. The row to be written is found by reading
@@ -160,8 +160,8 @@ void sorting::writer(vector<string> header, vector<vector<string>> bookArray){
  */
 
 void sorting::printer(){
-	for (int i= 0 ; i  < sizeof(unsorted_values)/sizeof(float); i++) {
-		cout << unsorted_values[i] << endl;
+	for (int i= 0 ; i  < unsorted_values.size(); i++) {
+         cout<< i << " " << sort.getValue(i) << endl;
 	}
 }
 
@@ -251,43 +251,56 @@ void quicksort( int low, int high){
             quicksort( i + 1, high);
     }
 }
+
+void partition_check(int low, int high, int pivot){
+    for(int i = 0; i < pivot - low; i++){
+        if(sort.getValue(low + i) > sort.getValue(pivot)){
+            cout << "Error in partitioning" << endl;
+            return;
+        }
+    }
+    for(int i = pivot + 1; i < high; i++){
+        if(sort.getValue(i) < sort.getValue(pivot)){
+            cout << "Error in partitioning" << endl;
+            return;
+        }
+    }
+}
 /*!
  *The code for Part II, the partition function starts by walking i from the low index and j from the
  high index. The pivot is selected randomly. In addition to the pseudocode, I decided to store the 
- pivot in the low index at the beginning and restore it in the end to have the pivot in the right place 
- ath the end of partitioning.
+ pivot in the low index at the beginning.
  i walks until seeing a value bigger than pivot and j walks backwards from the end until seeing a value 
- smaller than pivot. If either i point to a value larger than pivot or j points to a value smaller than 
- pivot and i is smaller than j swap i and j. 
- In the end j points to the first value smaller than pivot so it is safe to swap the pivot at low  and j. 
+ smaller than pivot. If i did not exceed j, swap i and j. 
  */
 int partition2 ( int low, int high){
-    int i = low;
-    int j = high;
+#if stats
+partition_count++;
+#endif 
+    int i = low -1;
+    int j = high + 1;
     int pivIndex = rand() % (high - low) + low;
     float Pivot = sort.getValue(pivIndex);
     sort.swap(pivIndex, low);
 
-    while (i < j){ 
-        while ( sort.getValue(j) <= Pivot && i < high ){
+    while(true){
+        do{
             i++;
-        }
-        while ( sort.getValue(j) >= Pivot && j >= i && j > low){
-            j--;
-        }
+        }while(sort.getValue(i) < Pivot);
         
-        if(i >= j){
-            sort.swap(low, j);
+        do{
+            j--;
+        }while(sort.getValue(j) > Pivot);
+
+        if(i >= j)
             return j;
-        }
-        if((sort.getValue(j) < Pivot  ||  sort.getValue(i) > Pivot) && i < j){
-            sort.swap(i,j);
-        }
 
-
+        sort.swap(i,j);
     }
-    return j;   
-}
+
+    
+}   
+
 
 
 /*!
@@ -348,10 +361,9 @@ int main(){
     int low = 0;
     int high = bookArray.size() - 1;
 
-
-	//printer(bookArray);
     cout << "Using QS1 Algorithm with input size "<< high << endl;      
     sort.extractor(bookArray);
+    sort.printer();
 #if stats
     value_read = 0;
     swap_count = 0; 
@@ -361,6 +373,7 @@ int main(){
     quicksort( low, high);
 
     auto stop = std::chrono::high_resolution_clock::now();
+    sort.printer();
 #if stats
     cout << "The reading of value is performed " << to_string(value_read) << " times."<< endl;
     cout << "Swap is performed " <<to_string(swap_count) << " times."<< endl;
@@ -374,7 +387,6 @@ int main(){
     cout << "Duration of quicksort is " << duration.count() << " nanoseconds."<< endl;
 cout << "\n";
 
-	//printer(bookArray);
     return 0;
 
 }
